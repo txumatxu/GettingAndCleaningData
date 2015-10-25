@@ -60,10 +60,14 @@ run_analysis <- function(){
         # Use descriptive activity names (Step 2)
         merged_data$Activity<-factor(merged_data$Activity,c("1","2","3","4","5","6"),Activities)
         
-        # Creates the Tidy Data file where 
+        # Creates the Tidy Data file. Grouping by SubjectId and Activity. 
         test_table <- merged_data %>% group_by(SubjectId,Activity) %>% summarise_each(funs(mean))
         write.table(test_table,"UCI_HAR_Tidy_Data.txt",row.names = FALSE)
 }
+
+## load_feature_list
+##
+## Loads the content of the file features.txt and returns it's content into a data frame.
 
 load_feature_list <- function(){
         read.table("./UCI HAR Dataset/features.txt",
@@ -72,6 +76,13 @@ load_feature_list <- function(){
         fill=FALSE, strip.white=TRUE)
 }
 
+## determine_usable_feature_Indexes
+
+## Determines the indexes of the features asociated to the mean and std of the
+## original measurements by analyzing the name of the features. Requires the full
+## feature_list returning a new feature list containing only the required ones.
+## Removes the meanFreq values as considered different to mean values. 
+
 determine_usable_feature_Indexes <- function(feature_list){
         feature_list[intersect(grep("mean()|std()",
                                     feature_list$measurement_label),
@@ -79,29 +90,64 @@ determine_usable_feature_Indexes <- function(feature_list){
                                     feature_list$measurement_label,invert=TRUE)),]
 }
 
+## load_training_users
+
+## Returns a data frame with the Id of the Subject associated to each row of the main
+## training data.
+
 load_training_users <- function(){
-        read.table("./UCI HAR Dataset/train/subject_train.txt",sep="",col.names = c("SubjectId"))
+        read.table("./UCI HAR Dataset/train/subject_train.txt",
+                   sep="",col.names = c("SubjectId"))
 }
+
+## load_training_action
+
+## Returns a data frame containing the index associated to the actions that the subjects
+## were performing when each of the row in the main training data was captured.
 
 load_training_action <- function(){
-        read.table("./UCI HAR Dataset/train/y_train.txt",sep="",col.names = c("Activity")) 
+        read.table("./UCI HAR Dataset/train/y_train.txt",
+                   sep="",col.names = c("Activity")) 
 }
+
+## load_test_users
+
+## Returns a data frame with the Id of the Subject associated to each row of the main
+## test data.
 
 load_test_users <- function(){
-        read.table("./UCI HAR Dataset/test/subject_test.txt",sep="",col.names = c("SubjectId"))
+        read.table("./UCI HAR Dataset/test/subject_test.txt",
+                   sep="",col.names = c("SubjectId"))
 }
 
+## load_test_action
+
+## Returns a data frame containing the index associated to the actions that the subjects
+## were performing when each of the row in the main test data was captured.
+
 load_test_action <- function(){
-        read.table("./UCI HAR Dataset/test/y_test.txt",sep="",col.names = c("Activity")) 
+        read.table("./UCI HAR Dataset/test/y_test.txt",sep="",
+                   col.names = c("Activity")) 
 }
+
+## load_main_training_samples
+
+## Loads the file that contains the main training samples and returns the data
+## into a data frame.
 
 load_main_training_samples <- function(feature_list){
         read.table("./UCI HAR Dataset/train/X_train.txt",sep="",
                    col.names = feature_list$measurement_label,fill=TRUE)
 }
 
+## load_main_test_sample
+
+## Loads the file that contains the main training samples and returns the data 
+##into a data frame.
+
 load_main_test_samples <- function(feature_list){
-        read.table("./UCI HAR Dataset/test/X_test.txt",sep="",col.names = feature_list$measurement_label)
+        read.table("./UCI HAR Dataset/test/X_test.txt",sep="",
+                   col.names = feature_list$measurement_label)
 }
 
 
