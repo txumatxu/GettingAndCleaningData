@@ -51,3 +51,5 @@ A file called UCI_HAR_Tidy_Data.txt will be created into the working directory. 
 
 The variables shown in the file are at the same time mean and std measures of the different original measures.
 
+The file CodeBook.md provides further information about the variables represented in the file.
+
