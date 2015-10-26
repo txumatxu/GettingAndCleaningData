@@ -3,9 +3,9 @@ Repository containing the project developed in the course Getting And Cleaning D
 
 This repository contains the script run_analysys.R that combines the information from the training and test sets from the 
 Human Activity Recognition Using Smartphones Dataset. The repository also contains a sample file with the output tidy data. 
-UCI_HAR_Tidy_Data.txt.
+UCI_HAR_Tidy_Data.txt and the Code Book where the variables are described.
 
-# Scripts description
+# Script's description
 
 The script contains a main function called run_analysis as well as the following secondary functions:
 
@@ -28,6 +28,26 @@ The main function calls the rest of the functions in order to tidy the data. Thi
   - Subset the sample data by croping the features that correspond to mean or std measures only. 
   - Combine the samples with the volunteer identification (SubjectId) as the activity represented by it's index.
 
-- Finaly both dataframes corresponding to the test set and the training set are combined row by row in a single data frame.
-- The
-# Scripts usage
+- Both dataframes corresponding to the test set and the training set are combined row by row in a single data frame.
+- The activity indexes are replaced by a String factor which describes better the activity.
+- The information is sumarized grouping the data by SubjectId and activity and computing the mean for each of this groups.
+- The resulting data frame is finally exported into a file called UCI_HAR_Tidy_Data.txt
+
+# Script's usage instructions
+
+The main function does not take any argument, but the script has several requirements that are listed below:
+- UCI HAR dataset folder should be in the working directory. (A folder called UCI HAR Dataset should be present)
+  - Download dataset from https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip and uncompress it in the working directory.
+- The script uses dplyr and should be installed.
+  - Install de dplyr package from R.
+- The script should also be executed from working directory.
+  - Copy script into working directory.
+
+Once the script is into the working directory execute the following commands:
+   - >source("run_analysis.R")
+   - >run_analysis()
+ 
+A file called UCI_HAR_Tidy_Data.txt will be created into the working directory. This file contains a row per user and activity where the different variables are represented by the mean value of the measures that fall within each of these groups.
+
+The variables shown in the file are at the same time mean and std measures of the different original measures.
+
